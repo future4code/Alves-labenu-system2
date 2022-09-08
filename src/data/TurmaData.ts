@@ -6,9 +6,7 @@ export class TurmaData extends BaseDataBase {
     async insertTurma(turma: Turma): Promise<void> {
 
         await this.getConnection()
-            .insert(
-                turma
-            )
+            .insert(turma)
             .into("LabenuSystem_Turma")
     }
 }

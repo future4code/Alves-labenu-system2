@@ -18,7 +18,7 @@ export class TurmaController {
 
             const turma = new TurmaData()
             await turma.insertTurma(newTurma)
-
+            res.status(201).send('Turma criada')
         } catch (error: any) {
             res.status(500).send({ message: error.message })
         }
