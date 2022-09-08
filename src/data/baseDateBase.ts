@@ -7,12 +7,12 @@ dotenv.config()
 class BaseDataBase {
 
     // Se tiver conexao , ele é knex , senao ele é null
-    private connetion: Knex | null = null;
+    private connection: Knex | null = null;
 
-    protected getConnetion() {
+    protected getConnection() {
         // senao tiver conexao com o banco de dados , cria uma !
-        if (!this.connetion) {
-            this.connetion = knex({
+        if (!this.connection) {
+            this.connection = knex({
                 client: "mysql",
                 connection: {
                     host: process.env.DB_HOST,
@@ -24,7 +24,7 @@ class BaseDataBase {
             })
         }
 
-        return this.connetion
+        return this.connection
     }
 }
 export default BaseDataBase
