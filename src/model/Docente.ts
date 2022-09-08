@@ -6,7 +6,12 @@ export class Docente extends Usuario {
         name: string,
         email: string,
         date_nasc: Date,
-        turma_id: string) {
+        turma_id: string,
+        private especialidade_id: string
+        ) {
         super(id, name, email, date_nasc, turma_id)
+    }
+    getEspecialidade() {
+        return this.especialidade_id
     }
 }

@@ -6,8 +6,12 @@ export class Estudante extends Usuario {
         name: string,
         email: string,
         date_nasc: Date,
-        turma_id: string) {
+        turma_id: string,
+        private hobby_name: string
+    ) {
         super(id, name, email, date_nasc, turma_id)
     }
-
+    getHobby_name() {
+        return this.hobby_name
+    }
 }
