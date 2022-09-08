@@ -1,3 +1,9 @@
 import app from "./app";
+import { TurmaController } from "./endpoints/TurmaController";
+console.log("Teste")
 
-app()
+const turmaController = new TurmaController()
+
+app.post("/turma", turmaController.createTurma)
+
+// app()
