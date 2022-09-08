@@ -9,7 +9,8 @@ export class TurmaController {
             const { name, modulo } = req.body
 
             if (!name) {
-                throw new Error("O id, name e modulo devem ser passados.");
+                res.statusCode = 404
+                throw new Error("O nome deve ser passado.");
             }
 
             const id = Date.now() % 10000
@@ -20,7 +21,45 @@ export class TurmaController {
             await turma.insertTurma(newTurma)
             res.status(201).send('Turma criada')
         } catch (error: any) {
-            res.status(500).send({ message: error.message })
+            res.status(res.statusCode || 500).send({ message: error.message })
+        }
+    }
+
+    async getTurma(req: Request, res: Response) {
+        try {
+            const turmaData = new TurmaData()
+
+            const turmas = await turmaData.selectTurma()
+
+            if(!turmas.length){
+                res.statusCode = 404
+                throw new Error ("Não há turmas cadastradas!")
+            }
+
+            res.status(200).send(turmas
+                )
+        } catch (error: any) {
+            res.status(res.statusCode || 500).send({ message: error.message })
+        }
+    }
+
+    async putTurmaModulo(req: Request, res: Response) {
+        try {
+            const {modulo} = req.body
+            const {id} = req.params
+            if(!modulo || !id) {
+                res.statusCode = 404
+                throw new Error("O novo módulo e o id devem ser informados!")
+            }
+
+            const moduloData = new TurmaData()
+            await moduloData.editModulo(id, modulo)
+            res.send(200).send("Módulo alterado!")
+
+
+        } catch (error: any) {
+            res.status(res.statusCode || 500).send({ message: error.message })
+            
         }
     }
 }
