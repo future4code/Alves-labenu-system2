@@ -24,8 +24,8 @@ POST  http://localhost:3003/estudante
 Content-Type: application/json
 
 {
-    "name": "nn",
-    "email": "nn@react-amigo.com",
+    "name": "Portaluppi",
+    "email": "portaluppi@react-amigo.com",
     "date_nasc": "01/01/1990",
-    "hobby_name": "dormir"
+    "hobby_name": "titulos"
 }

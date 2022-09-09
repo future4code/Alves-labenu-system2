@@ -35,19 +35,17 @@ export class EstudanteController {
 
             // console.log("findName", findName.hobby_id)
 
-
             if (findName) {
                 console.log("to no if")
-                await estudanteData.insertEstudante_Hobby(newId, newIdEstudante, findName.hobby_id)
                 await estudanteData.insertEstudante(newEstudante)
+                await estudanteData.insertEstudante_Hobby(newId, newIdEstudante, findName.hobby_id)
 
             } else {
                 console.log("entrei no else")
                 await estudanteData.insertHobby(newIdHobby, hobby_name)
-                await estudanteData.insertEstudante_Hobby(newId, newIdEstudante, newIdHobby)
                 await estudanteData.insertEstudante(newEstudante)
+                await estudanteData.insertEstudante_Hobby(newId, newIdEstudante, newIdHobby)
             }
-
 
             res.status(201).send('Estudante criado')
 
