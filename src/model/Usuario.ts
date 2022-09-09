@@ -4,7 +4,7 @@ export class Usuario {
         private name: string,
         private email: string,
         private date_nasc: Date,
-        private turma_id: string
+        private turma_id?: string
         )
         {}
 

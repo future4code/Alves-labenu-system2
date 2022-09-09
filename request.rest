@@ -15,5 +15,17 @@ PUT http://localhost:3003/turma/7056
 Content-Type: application/json
 
 {
-    "modulo": "3"
+    "modulo": "2"
+}
+
+###
+
+POST  http://localhost:3003/estudante
+Content-Type: application/json
+
+{
+    "name": "Clara",
+    "email": "clara@react-amigo.com",
+    "date_nasc": "01/01/1990",
+    "hobby_name": "CSS"
 }
