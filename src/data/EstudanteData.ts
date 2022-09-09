@@ -20,9 +20,7 @@ export class EstudanteData extends BaseDataBase {
 
     }
 
-
-
-    async insertHobby(newIdHobby: string, hobby_name:string ):Promise<void> {
+    async insertHobby(newIdHobby: string, hobby_name: string): Promise<void> {
         console.log('entrei insertHobby')
         try {
             await this.getConnection()
@@ -34,16 +32,15 @@ export class EstudanteData extends BaseDataBase {
         } catch (error) {
             console.log("insertHobby", error)
         }
-
     }
 
-    async insertEstudante_Hobby(id: string, idEstudante: string, idHobby: string): Promise<void> {
+    async insertEstudante_Hobby(id: string, estudante_id: string, hobby_id: string): Promise<void> {
         try {
             await this.getConnection()
                 .insert({
                     id: id,
-                    estudante_id: idEstudante,
-                    hobby_id: idHobby
+                    estudante_id: estudante_id,
+                    hobby_id: hobby_id
                 })
                 .into("LabenuSystem_Estudante_Hobby")
         } catch (error) {
@@ -52,4 +49,17 @@ export class EstudanteData extends BaseDataBase {
 
     }
 
+    async selectHobby() {
+
+        const result = await this.getConnection().raw(`
+            SELECT LabenuSystem_Hobby.id as hobby_id, LabenuSystem_Hobby.name as hobby_name, LabenuSystem_Estudante.id as estudante_id
+            FROM LabenuSystem_Estudante_Hobby 
+            JOIN LabenuSystem_Estudante 
+            ON LabenuSystem_Estudante_Hobby.estudante_id = LabenuSystem_Estudante.id
+            JOIN LabenuSystem_Hobby 
+            ON LabenuSystem_Estudante_Hobby.hobby_id = LabenuSystem_Hobby.id
+        `)
+        return result[0]
+    }
 }
+

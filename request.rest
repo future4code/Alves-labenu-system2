@@ -24,8 +24,8 @@ POST  http://localhost:3003/estudante
 Content-Type: application/json
 
 {
-    "name": "clara",
-    "email": "clara@react-amigo.com",
+    "name": "nn",
+    "email": "nn@react-amigo.com",
     "date_nasc": "01/01/1990",
-    "hobby_name": "CSS"
+    "hobby_name": "dormir"
 }
