@@ -4,61 +4,47 @@ import BaseDataBase from "./baseDateBase";
 export class EstudanteData extends BaseDataBase {
 
     async insertEstudante(estudante: Estudante): Promise<void> {
-        try {
-            await this.getConnection()
-                .insert({
-                    id: estudante.getId(),
-                    name: estudante.getName(),
-                    email: estudante.getEmail(),
-                    date_nasc: estudante.getDate_nasc(),
+        await this.getConnection()
+            .insert({
+                id: estudante.getId(),
+                name: estudante.getName(),
+                email: estudante.getEmail(),
+                date_nasc: estudante.getDate_nasc(),
 
-                })
-                .into("LabenuSystem_Estudante")
-        } catch (error) {
-            console.log("insertEstudante", error)
-        }
+            })
+            .into("LabenuSystem_Estudante")
 
     }
 
-    async selectEstudanteName(name: string) {
+    async selectEstudanteName(name: string): Promise<Estudante[]> {
         const result = await this.getConnection()
-            .select("name")
+            .select("*")
             .where("name", "LIKE", `%${name}%`)
             .from("LabenuSystem_Estudante")
         return result
     }
 
     async insertHobby(newIdHobby: string, hobby_name: string): Promise<void> {
-        console.log('entrei insertHobby')
-        try {
-            await this.getConnection()
-                .insert({
-                    id: newIdHobby,
-                    name: hobby_name
-                })
-                .into("LabenuSystem_Hobby")
-        } catch (error) {
-            console.log("insertHobby", error)
-        }
+        await this.getConnection()
+            .insert({
+                id: newIdHobby,
+                name: hobby_name
+            })
+            .into("LabenuSystem_Hobby")
+
     }
 
     async insertEstudante_Hobby(id: string, estudante_id: string, hobby_id: string): Promise<void> {
-        try {
-            await this.getConnection()
-                .insert({
-                    id: id,
-                    estudante_id: estudante_id,
-                    hobby_id: hobby_id
-                })
-                .into("LabenuSystem_Estudante_Hobby")
-        } catch (error) {
-            console.log("insertEstudante_Hobby", error)
-        }
-
+        await this.getConnection()
+            .insert({
+                id: id,
+                estudante_id: estudante_id,
+                hobby_id: hobby_id
+            })
+            .into("LabenuSystem_Estudante_Hobby")
     }
 
-    async selectHobby() {
-
+    async selectHobby(): Promise<any> {
         const result = await this.getConnection().raw(`
             SELECT LabenuSystem_Hobby.id as hobby_id, LabenuSystem_Hobby.name as hobby_name, LabenuSystem_Estudante.id as estudante_id
             FROM LabenuSystem_Estudante_Hobby 
@@ -80,7 +66,6 @@ export class EstudanteData extends BaseDataBase {
     }
 
     async addTurmaEstudante(id: string, turma_id: string) {
-        console.log(id, turma_id)
         await this.getConnection().raw(`
             update LabenuSystem_Estudante set turma_id = ${turma_id}
             where id = ${id}

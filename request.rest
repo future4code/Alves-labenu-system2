@@ -40,7 +40,7 @@ POST http://localhost:3003/estudante/70121
 Content-Type: application/json
 
 {
-    "turma_id": "1240"
+    "turma_id": "7056"
 }
 
 ###
