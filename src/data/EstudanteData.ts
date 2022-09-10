@@ -85,11 +85,5 @@ export class EstudanteData extends BaseDataBase {
             update LabenuSystem_Estudante set turma_id = ${turma_id}
             where id = ${id}
         `)
-
-        // .update({
-        //     turma_id: turma_id
-        // })
-        // .into("LabenuSystem_Estudante")
-        // .where("id", id)
     }
 }

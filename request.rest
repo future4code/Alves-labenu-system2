@@ -49,8 +49,20 @@ POST  http://localhost:3003/docente
 Content-Type: application/json
 
 {
-    "name": "Clara",
-    "email": "clara@react-amigo.com",
+    "name": "Pafuncia",
+    "email": "pafuncia@react-amigo.com",
     "date_nasc": "01/01/1990",
-    "turma_id": "1240"
+    "turma_id": "1240",
+    "especialidade_id": "525"
+}
+
+###
+GET http://localhost:3003/docente
+
+
+PUT http://localhost:3003/docente/46612
+Content-Type: application/json
+
+{
+    "turma_id": "5878"
 }
