@@ -9,7 +9,7 @@ export class TurmaController {
             const { name, modulo } = req.body
 
             if (!name) {
-                res.statusCode = 404
+                res.statusCode = 401
                 throw new Error("O nome deve ser passado.");
             }
 
@@ -19,7 +19,9 @@ export class TurmaController {
 
             const turma = new TurmaData()
             await turma.insertTurma(newTurma)
-            res.status(201).send('Turma criada')
+
+            res.status(201).send('Turma criada com sucesso')
+
         } catch (error: any) {
             res.status(res.statusCode || 500).send({ message: error.message })
         }
@@ -28,16 +30,15 @@ export class TurmaController {
     async getTurma(req: Request, res: Response) {
         try {
             const turmaData = new TurmaData()
-
             const turmas = await turmaData.selectTurma()
 
-            if(!turmas.length){
+            if (!turmas.length) {
                 res.statusCode = 404
-                throw new Error ("Não há turmas cadastradas!")
+                throw new Error("Não há turmas cadastradas!")
             }
 
-            res.status(200).send(turmas
-                )
+            res.status(200).send(turmas)
+
         } catch (error: any) {
             res.status(res.statusCode || 500).send({ message: error.message })
         }
@@ -45,21 +46,22 @@ export class TurmaController {
 
     async putTurmaModulo(req: Request, res: Response) {
         try {
-            const {modulo} = req.body
-            const {id} = req.params
-            if(!modulo || !id) {
-                res.statusCode = 404
+            const { id } = req.params
+            const { modulo } = req.body
+
+            if (!id || !modulo) {
+                res.statusCode = 401
                 throw new Error("O novo módulo e o id devem ser informados!")
             }
 
             const moduloData = new TurmaData()
             await moduloData.editModulo(id, modulo)
-            res.send(200).send("Módulo alterado!")
 
+            res.status(200).send("Módulo alterado!")
 
         } catch (error: any) {
             res.status(res.statusCode || 500).send({ message: error.message })
-            
+
         }
     }
 }

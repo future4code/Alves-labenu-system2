@@ -11,14 +11,43 @@ export class DocenteData extends BaseDataBase {
                     email: docente.getEmail(),
                     date_nasc: docente.getDate_nasc(),
                     turma_id: docente.getTurma_id(),
-                    // especialidade_id: docente.getEspecialidadeId()
                 })
                 .into("LabenuSystem_Docente")
         } catch (error) {
             console.log(error)
         }
     }
-    // async selectDocenteName(name: string){
 
-    // }
+    async insertDocente_Especialidade(id: string, docente_id: string, especialidade_id: string): Promise<void> {
+        await this.getConnection()
+            .insert({
+                id: id,
+                docente_id: docente_id,
+                especialidade_id: especialidade_id
+            })
+            .into("LabenuSystem_Docente_Especialidade")
+    }
+
+    async selectDocentes() {
+        const result = await this.getConnection()
+            .select("*")
+            .from("LabenuSystem_Docente")
+        return result
+    }
+
+    async selectEspecialidade() {
+        const result = await this.getConnection()
+            .select("id")
+            .from("LabenuSystem_Especialidade")
+
+        return result
+    }
+
+    async editTurmaDocente(id: string, turma_id: string) {
+        await this.getConnection().raw(`
+        update LabenuSystem_Docente set turma_id = ${turma_id}
+        where id = ${id}
+        `)
+    }
+
 }

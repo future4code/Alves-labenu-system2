@@ -24,11 +24,10 @@ export class TurmaData extends BaseDataBase {
 
     async editModulo(id: string, modulo: string) {
         await this.getConnection()
-        .update({
-            modulo: modulo
-        })
-        .into("LabenuSystem_Turma")
-        .where("id", id)
-
+            .update({
+                modulo: modulo
+            })
+            .into("LabenuSystem_Turma")
+            .where("id", id)
     }
 }

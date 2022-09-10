@@ -9,7 +9,7 @@ export class EstudanteController {
             const { name, email, date_nasc, hobby_name } = req.body
 
             if (!name || !email || !date_nasc || !hobby_name) {
-                res.statusCode = 404
+                res.statusCode = 401
                 throw new Error("O nome, email, data de nascimento e hobby devem ser passados.");
             }
 
@@ -30,18 +30,13 @@ export class EstudanteController {
             const estudanteData = new EstudanteData()
 
             const result = await estudanteData.selectHobby()
-            // console.log(result)
             const findName = await result.find((resu: any) => resu.hobby_name === hobby_name)
 
-            // console.log("findName", findName.hobby_id)
-
             if (findName) {
-                console.log("to no if")
                 await estudanteData.insertEstudante(newEstudante)
                 await estudanteData.insertEstudante_Hobby(newId, newIdEstudante, findName.hobby_id)
 
             } else {
-                console.log("entrei no else")
                 await estudanteData.insertHobby(newIdHobby, hobby_name)
                 await estudanteData.insertEstudante(newEstudante)
                 await estudanteData.insertEstudante_Hobby(newId, newIdEstudante, newIdHobby)
@@ -50,7 +45,6 @@ export class EstudanteController {
             res.status(201).send('Estudante criado')
 
         } catch (error: any) {
-            console.log("erro catch", error)
             res.status(res.statusCode || 500).send({ message: error.message })
         }
     }
@@ -59,7 +53,6 @@ export class EstudanteController {
         try {
 
             const estudanteData = new EstudanteData()
-
             let name = req.query.name as string || ""
 
             const estudante = await estudanteData.selectEstudanteName(name)
@@ -73,16 +66,16 @@ export class EstudanteController {
 
     async postTurmaEstudante(req: Request, res: Response) {
         try {
-            const turma_id  = req.body.turma_id
             const id = req.params.id
+            const turma_id = req.body.turma_id
+
             const estudanteData = new EstudanteData()
-            // console.log("1", turma_id, id)
             await estudanteData.addTurmaEstudante(id, turma_id)
+
             res.status(200).send("Turma alterada!")
 
         } catch (error: any) {
             res.status(res.statusCode || 500).send({ message: error.message })
-
         }
     }
 }
