@@ -1,5 +1,6 @@
 import { Usuario } from "./Usuario";
 
+
 export class Docente extends Usuario {
     constructor(
         id: string,
@@ -7,11 +8,15 @@ export class Docente extends Usuario {
         email: string,
         date_nasc: Date,
         turma_id: string,
-        private especialidade_id: string
-        ) {
+        private especialidade_id?: string
+    ) {
         super(id, name, email, date_nasc, turma_id)
     }
-    getEspecialidade() {
+  
+    getEspecialidadeId() {
         return this.especialidade_id
     }
+    // getEspecialidadeName() {
+    //     return this.especialidade_name
+    // }
 }
