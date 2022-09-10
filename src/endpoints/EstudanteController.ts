@@ -54,4 +54,35 @@ export class EstudanteController {
             res.status(res.statusCode || 500).send({ message: error.message })
         }
     }
+
+    async getEstudanteName(req: Request, res: Response) {
+        try {
+
+            const estudanteData = new EstudanteData()
+
+            let name = req.query.name as string || ""
+
+            const estudante = await estudanteData.selectEstudanteName(name)
+
+            res.status(200).send(estudante)
+
+        } catch (error: any) {
+            res.status(res.statusCode || 500).send({ message: error.message })
+        }
+    }
+
+    async postTurmaEstudante(req: Request, res: Response) {
+        try {
+            const turma_id  = req.body.turma_id
+            const id = req.params.id
+            const estudanteData = new EstudanteData()
+            // console.log("1", turma_id, id)
+            await estudanteData.addTurmaEstudante(id, turma_id)
+            res.status(200).send("Turma alterada!")
+
+        } catch (error: any) {
+            res.status(res.statusCode || 500).send({ message: error.message })
+
+        }
+    }
 }

@@ -20,6 +20,14 @@ export class EstudanteData extends BaseDataBase {
 
     }
 
+    async selectEstudanteName(name: string) {
+        const result = await this.getConnection()
+            .select("name")
+            .where("name", "LIKE", `%${name}%`)
+            .from("LabenuSystem_Estudante")
+        return result
+    }
+
     async insertHobby(newIdHobby: string, hobby_name: string): Promise<void> {
         console.log('entrei insertHobby')
         try {
@@ -61,5 +69,27 @@ export class EstudanteData extends BaseDataBase {
         `)
         return result[0]
     }
-}
 
+    async editTurmaEstudante(estudante_id: string, turma_id: string) {
+        await this.getConnection()
+            .update({
+                turma_id: turma_id
+            })
+            .into("LabenuSystem_Estudante")
+            .where("id", estudante_id)
+    }
+
+    async addTurmaEstudante(id: string, turma_id: string) {
+        console.log(id, turma_id)
+        await this.getConnection().raw(`
+            update LabenuSystem_Estudante set turma_id = ${turma_id}
+            where id = ${id}
+        `)
+
+        // .update({
+        //     turma_id: turma_id
+        // })
+        // .into("LabenuSystem_Estudante")
+        // .where("id", id)
+    }
+}

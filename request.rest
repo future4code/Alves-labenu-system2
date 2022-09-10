@@ -29,3 +29,28 @@ Content-Type: application/json
     "date_nasc": "01/01/1990",
     "hobby_name": "titulos"
 }
+
+###
+
+GET http://localhost:3003/estudante?name=renato
+
+###
+
+POST http://localhost:3003/estudante/70121
+Content-Type: application/json
+
+{
+    "turma_id": "1240"
+}
+
+###
+
+POST  http://localhost:3003/docente
+Content-Type: application/json
+
+{
+    "name": "Clara",
+    "email": "clara@react-amigo.com",
+    "date_nasc": "01/01/1990",
+    "turma_id": "1240"
+}
