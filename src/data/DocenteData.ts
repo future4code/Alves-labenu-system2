@@ -28,14 +28,14 @@ export class DocenteData extends BaseDataBase {
             .into("LabenuSystem_Docente_Especialidade")
     }
 
-    async selectDocentes() {
+    async selectDocentes(): Promise<Docente[]> {
         const result = await this.getConnection()
             .select("*")
             .from("LabenuSystem_Docente")
         return result
     }
 
-    async selectEspecialidade() {
+    async selectEspecialidade(): Promise<any[]> {
         const result = await this.getConnection()
             .select("id")
             .from("LabenuSystem_Especialidade")
@@ -43,7 +43,7 @@ export class DocenteData extends BaseDataBase {
         return result
     }
 
-    async editTurmaDocente(id: string, turma_id: string) {
+    async editTurmaDocente(id: string, turma_id: string): Promise<void> {
         await this.getConnection().raw(`
         update LabenuSystem_Docente set turma_id = ${turma_id}
         where id = ${id}

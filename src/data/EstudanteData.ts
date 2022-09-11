@@ -56,7 +56,7 @@ export class EstudanteData extends BaseDataBase {
         return result[0]
     }
 
-    async editTurmaEstudante(estudante_id: string, turma_id: string) {
+    async editTurmaEstudante(estudante_id: string, turma_id: string): Promise<void> {
         await this.getConnection()
             .update({
                 turma_id: turma_id
@@ -65,7 +65,7 @@ export class EstudanteData extends BaseDataBase {
             .where("id", estudante_id)
     }
 
-    async addTurmaEstudante(id: string, turma_id: string) {
+    async addTurmaEstudante(id: string, turma_id: string): Promise<void> {
         await this.getConnection().raw(`
             update LabenuSystem_Estudante set turma_id = ${turma_id}
             where id = ${id}

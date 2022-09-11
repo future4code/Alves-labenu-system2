@@ -14,7 +14,7 @@ export class TurmaData extends BaseDataBase {
             .into("LabenuSystem_Turma")
     }
 
-    async selectTurma() {
+    async selectTurma(): Promise<Turma[]> {
         const result = await this.getConnection()
             .select("*")
             .from("LabenuSystem_Turma")
@@ -22,7 +22,7 @@ export class TurmaData extends BaseDataBase {
         return result
     }
 
-    async editModulo(id: string, modulo: string) {
+    async editModulo(id: string, modulo: string): Promise<void> {
         await this.getConnection()
             .update({
                 modulo: modulo

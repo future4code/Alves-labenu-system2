@@ -11,3 +11,9 @@
 //         return this.name
 //     }
 // }
+
+export class Hobby {
+    constructor(
+        hobby: string,
+    ) { }
+}
