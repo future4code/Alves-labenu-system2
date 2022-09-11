@@ -27,8 +27,13 @@ export class DocenteController {
             const result = await docenteData.selectEspecialidade()
             const findEspecialidade = await result.find((resu: any) => resu.id === especialidade_id)
 
-            await docenteData.insertDocente(newDocente)
-            await docenteData.insertDocente_Especialidade(newId, newIdDocente, findEspecialidade.id)
+            if(findEspecialidade){
+                await docenteData.insertDocente(newDocente)
+                await docenteData.insertDocente_Especialidade(newId, newIdDocente, findEspecialidade.id)
+            }else{
+                throw new Error("especialidade não existe");
+                
+            }
 
             res.status(200).send("Docente criado")
 
