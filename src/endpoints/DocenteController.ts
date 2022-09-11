@@ -30,7 +30,7 @@ export class DocenteController {
                 res.statusCode = 401
                 throw new Error('Erro, email já cadastrado!')
             }
-            
+
             const newDocente = new Docente(newIdDocente, name, email, deadlineForAmerican, turma_id, especialidade_id)
 
             const result = await docenteData.selectEspecialidade()
@@ -58,6 +58,11 @@ export class DocenteController {
             const docenteData = new DocenteData()
             const docente = await docenteData.selectDocentes()
 
+            if (!docente.length) {
+                res.statusCode = 404
+                throw new Error("Não há docentes cadastrados!")
+            }
+
             res.status(200).send(docente)
 
         } catch (error: any) {
@@ -69,6 +74,11 @@ export class DocenteController {
         try {
             const id = req.params.id
             const turma_id = req.body.turma_id
+
+            if (!id || !turma_id) {
+                res.statusCode = 401
+                throw new Error('Necessário passar o id do docente e o id da turma.')
+            }
 
             const docenteData = new DocenteData()
             await docenteData.editTurmaDocente(id, turma_id)

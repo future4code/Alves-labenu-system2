@@ -8,9 +8,13 @@ export class TurmaController {
         try {
             const { name, modulo } = req.body
 
-            if (!name) {
+            if (!name || !modulo) {
                 res.statusCode = 401
-                throw new Error("O nome deve ser passado.");
+                throw new Error("O nome  e o módulo deve ser passado.");
+            }
+            if ( modulo > 6) {
+                res.statusCode = 401
+                throw new Error("O modulo dever ser um número e ter o valor de 1 a 6.");
             }
 
             const id = Date.now() % 10000

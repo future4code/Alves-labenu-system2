@@ -65,6 +65,11 @@ export class EstudanteController {
 
             const estudante = await estudanteData.selectEstudanteName(name)
 
+            if (!estudante.length) {
+                res.statusCode = 404
+                throw new Error("Não há estudantes cadastrados!")
+            }
+
             res.status(200).send(estudante)
 
         } catch (error: any) {
@@ -76,6 +81,11 @@ export class EstudanteController {
         try {
             const id = req.params.id
             const turma_id = req.body.turma_id
+
+            if (!id || !turma_id) {
+                res.statusCode = 401
+                throw new Error('Necessário passar o id do estudante e o id da turma.')
+            }
 
             const estudanteData = new EstudanteData()
             await estudanteData.addTurmaEstudante(id, turma_id)
