@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
 import { TurmaData } from "../data/TurmaData";
+import { FaltaIdModulo } from "../error/turma/FaltaIdModulo";
+import { FaltandoInfoTurma } from "../error/turma/FaltandoInfoTurma";
+import { ModuloMaiorSeis } from "../error/turma/ModuloMaiorSeis";
+import { NaoTurmasCadastradas } from "../error/turma/NaoTurmasCadastradas";
 import { Turma } from "../model/Turma";
 
 export class TurmaController {
@@ -8,9 +12,11 @@ export class TurmaController {
         try {
             const { name, modulo } = req.body
 
-            if (!name) {
-                res.statusCode = 401
-                throw new Error("O nome deve ser passado.");
+            if (!name || !modulo) {
+                throw new FaltandoInfoTurma()
+            }
+            if (modulo > 6) {
+                throw new ModuloMaiorSeis()
             }
 
             const id = Date.now() % 10000
@@ -23,7 +29,7 @@ export class TurmaController {
             res.status(201).send('Turma criada com sucesso')
 
         } catch (error: any) {
-            res.status(res.statusCode || 500).send({ message: error.message })
+            res.status(error.statusCode || 500).send({ message: error.message })
         }
     }
 
@@ -33,14 +39,13 @@ export class TurmaController {
             const turmas = await turmaData.selectTurma()
 
             if (!turmas.length) {
-                res.statusCode = 404
-                throw new Error("Não há turmas cadastradas!")
+                throw new NaoTurmasCadastradas()
             }
 
             res.status(200).send(turmas)
 
         } catch (error: any) {
-            res.status(res.statusCode || 500).send({ message: error.message })
+            res.status(error.statusCode || 500).send({ message: error.message })
         }
     }
 
@@ -50,8 +55,7 @@ export class TurmaController {
             const { modulo } = req.body
 
             if (!id || !modulo) {
-                res.statusCode = 401
-                throw new Error("O novo módulo e o id devem ser informados!")
+                throw new FaltaIdModulo()
             }
 
             const moduloData = new TurmaData()
@@ -60,7 +64,7 @@ export class TurmaController {
             res.status(200).send("Módulo alterado!")
 
         } catch (error: any) {
-            res.status(res.statusCode || 500).send({ message: error.message })
+            res.status(error.statusCode || 500).send({ message: error.message })
 
         }
     }

@@ -16,7 +16,4 @@ export class Docente extends Usuario {
     getEspecialidadeId() {
         return this.especialidade_id
     }
-    // getEspecialidadeName() {
-    //     return this.especialidade_name
-    // }
 }
