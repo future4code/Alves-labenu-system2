@@ -1,5 +1,10 @@
 import { Request, Response } from "express";
 import { DocenteData } from "../data/DocenteData";
+import { EmailJaCadastrado } from "../error/EmailJaCadastrado";
+import { EspecialidadeNaoExiste } from "../error/docente/EspecialidadeNaoExiste";
+import { FaltandoInfoDocente } from "../error/docente/FaltandoInfoDocente";
+import { IdDocenteIdTurma } from "../error/docente/IdDocenteIdTurma";
+import { NaoDocentesCadastrados } from "../error/docente/NaoDocentesCadastrados";
 import { Docente } from "../model/Docente";
 
 export class DocenteController {
@@ -7,8 +12,7 @@ export class DocenteController {
         try {
             const { name, email, date_nasc, turma_id, especialidade_id } = req.body
             if (!name || !email || !date_nasc) {
-                res.statusCode = 404
-                throw new Error("O nome, email, data de nascimento e hobby devem ser passados.");
+                throw new FaltandoInfoDocente()
             }
 
             const id = Date.now() % 1000000
@@ -27,8 +31,7 @@ export class DocenteController {
             const verificaEmailExiste = docente.find((doce: any) => doce.email === email)
 
             if (verificaEmailExiste) {
-                res.statusCode = 401
-                throw new Error('Erro, email já cadastrado!')
+                throw new EmailJaCadastrado()
             }
 
             const newDocente = new Docente(newIdDocente, name, email, deadlineForAmerican, turma_id, especialidade_id)
@@ -40,15 +43,13 @@ export class DocenteController {
                 await docenteData.insertDocente(newDocente)
                 await docenteData.insertDocente_Especialidade(newId, newIdDocente, findEspecialidade.id)
             } else {
-                throw new Error("especialidade não existe");
-
+                throw new EspecialidadeNaoExiste()
             }
 
             res.status(200).send("Docente criado")
 
         } catch (error: any) {
-            res.status(res.statusCode || 500).send({ message: error.message || "Erro do servidor" })
-
+            res.status(error.statusCode || 500).send({ message: error.message || "Erro do servidor" })
         }
     }
 
@@ -59,14 +60,13 @@ export class DocenteController {
             const docente = await docenteData.selectDocentes()
 
             if (!docente.length) {
-                res.statusCode = 404
-                throw new Error("Não há docentes cadastrados!")
+                throw new NaoDocentesCadastrados()
             }
 
             res.status(200).send(docente)
 
         } catch (error: any) {
-            res.status(res.statusCode || 500).send({ message: error.message })
+            res.status(error.statusCode || 500).send({ message: error.message })
         }
     }
 
@@ -76,15 +76,14 @@ export class DocenteController {
             const turma_id = req.body.turma_id
 
             if (!id || !turma_id) {
-                res.statusCode = 401
-                throw new Error('Necessário passar o id do docente e o id da turma.')
+                throw new IdDocenteIdTurma()
             }
 
             const docenteData = new DocenteData()
             await docenteData.editTurmaDocente(id, turma_id)
             res.status(200).send("Turma Alterada")
         } catch (error: any) {
-            res.status(res.statusCode || 500).send({ message: error.message })
+            res.status(error.statusCode || 500).send({ message: error.message })
 
         }
     }

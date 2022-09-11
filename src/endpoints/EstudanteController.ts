@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
 import { EstudanteData } from "../data/EstudanteData";
+import { EmailJaCadastrado } from "../error/EmailJaCadastrado";
+import { FaltandoInfoEstudante } from "../error/estudante/FaltandoInfoEstudante";
+import { IdEstudanteIdTurma } from "../error/estudante/IdEstudanteIdTurma";
+import { NaoEstudantesCadastrados } from "../error/estudante/NaoEstudantesCadastrados";
 import { Estudante } from "../model/Estudante";
 
 export class EstudanteController {
@@ -9,8 +13,7 @@ export class EstudanteController {
             const { name, email, date_nasc, hobby_name } = req.body
 
             if (!name || !email || !date_nasc || !hobby_name) {
-                res.statusCode = 401
-                throw new Error("O nome, email, data de nascimento e hobby devem ser passados.");
+                throw new FaltandoInfoEstudante()
             }
 
             const id = Date.now() % 1000000
@@ -31,8 +34,7 @@ export class EstudanteController {
             const verificaEmailExiste = estudantes.find((estu: any) => estu.email === email)
 
             if (verificaEmailExiste) {
-                res.statusCode = 401
-                throw new Error('Erro, email já cadastrado!')
+                throw new EmailJaCadastrado()
             }
 
             const newEstudante = new Estudante(newIdEstudante, name, email, deadlineForAmerican, hobby_name)
@@ -53,7 +55,7 @@ export class EstudanteController {
             res.status(201).send('Estudante criado')
 
         } catch (error: any) {
-            res.status(res.statusCode || 500).send({ message: error.message })
+            res.status(error.statusCode || 500).send({ message: error.message })
         }
     }
 
@@ -66,14 +68,13 @@ export class EstudanteController {
             const estudante = await estudanteData.selectEstudanteName(name)
 
             if (!estudante.length) {
-                res.statusCode = 404
-                throw new Error("Não há estudantes cadastrados!")
+                throw new NaoEstudantesCadastrados()
             }
 
             res.status(200).send(estudante)
 
         } catch (error: any) {
-            res.status(res.statusCode || 500).send({ message: error.message })
+            res.status(error.statusCode || 500).send({ message: error.message })
         }
     }
 
@@ -83,8 +84,7 @@ export class EstudanteController {
             const turma_id = req.body.turma_id
 
             if (!id || !turma_id) {
-                res.statusCode = 401
-                throw new Error('Necessário passar o id do estudante e o id da turma.')
+                throw new IdEstudanteIdTurma()
             }
 
             const estudanteData = new EstudanteData()
@@ -93,7 +93,7 @@ export class EstudanteController {
             res.status(200).send("Turma alterada!")
 
         } catch (error: any) {
-            res.status(res.statusCode || 500).send({ message: error.message })
+            res.status(error.statusCode || 500).send({ message: error.message })
         }
     }
 }
