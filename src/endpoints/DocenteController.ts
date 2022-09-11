@@ -21,18 +21,27 @@ export class DocenteController {
             const deadlineInReverse = new_date.reverse()
             const deadlineForAmerican = deadlineInReverse.join("/")
 
-            const newDocente = new Docente(newIdDocente, name, email, deadlineForAmerican, turma_id, especialidade_id)
+
             const docenteData = new DocenteData()
+            const docente = await docenteData.selectDocentes()
+            const verificaEmailExiste = docente.find((doce: any) => doce.email === email)
+
+            if (verificaEmailExiste) {
+                res.statusCode = 401
+                throw new Error('Erro, email já cadastrado!')
+            }
+            
+            const newDocente = new Docente(newIdDocente, name, email, deadlineForAmerican, turma_id, especialidade_id)
 
             const result = await docenteData.selectEspecialidade()
             const findEspecialidade = await result.find((resu: any) => resu.id === especialidade_id)
 
-            if(findEspecialidade){
+            if (findEspecialidade) {
                 await docenteData.insertDocente(newDocente)
                 await docenteData.insertDocente_Especialidade(newId, newIdDocente, findEspecialidade.id)
-            }else{
+            } else {
                 throw new Error("especialidade não existe");
-                
+
             }
 
             res.status(200).send("Docente criado")

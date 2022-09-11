@@ -26,8 +26,16 @@ export class EstudanteController {
             const deadlineInReverse = new_date.reverse()
             const deadlineForAmerican = deadlineInReverse.join("/")
 
-            const newEstudante = new Estudante(newIdEstudante, name, email, deadlineForAmerican, hobby_name)
             const estudanteData = new EstudanteData()
+            const estudantes = await estudanteData.selectAllEstudante()
+            const verificaEmailExiste = estudantes.find((estu: any) => estu.email === email)
+
+            if (verificaEmailExiste) {
+                res.statusCode = 401
+                throw new Error('Erro, email já cadastrado!')
+            }
+
+            const newEstudante = new Estudante(newIdEstudante, name, email, deadlineForAmerican, hobby_name)
 
             const result = await estudanteData.selectHobby()
             const findName = await result.find((resu: any) => resu.hobby_name === hobby_name)

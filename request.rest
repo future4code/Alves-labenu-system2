@@ -49,8 +49,8 @@ POST  http://localhost:3003/docente
 Content-Type: application/json
 
 {
-    "name": "lll",
-    "email": "lll@react-amigo.com",
+    "name": "czc",
+    "email": "czc@react-amigo.com",
     "date_nasc": "01/01/1990",
     "turma_id": "1240",
     "especialidade_id": "1"

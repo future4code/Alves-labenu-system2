@@ -24,6 +24,13 @@ export class EstudanteData extends BaseDataBase {
         return result
     }
 
+    async selectAllEstudante(): Promise<Estudante[]> {
+        const result = await this.getConnection()
+            .select("*")
+            .from("LabenuSystem_Estudante")
+        return result
+    }
+
     async insertHobby(newIdHobby: string, hobby_name: string): Promise<void> {
         await this.getConnection()
             .insert({
@@ -71,4 +78,6 @@ export class EstudanteData extends BaseDataBase {
             where id = ${id}
         `)
     }
+
+    
 }
