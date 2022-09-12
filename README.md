@@ -1,8 +1,19 @@
 ## LabenuSystem
 
-Você estuda na Labenu_ há tanto tempo que já parecem anos, não é? Então, hoje, vamos pedir para criar um sistema que represente o básico da nossa organização.
+### Integrantes
 
-Ele deve possuir, ao menos, as 3 entidades importantes:
+Márleo Piber da Rosa
+Olavo Marque
+Raquel Bürger
+
+### Documentação Postaman
+
+https://documenter.getpostman.com/view/19799416/2s7YYoBmww
+
+
+### A API
+
+O sistema conta com três entidades principais.
 
 1. Estudantes
 
@@ -16,18 +27,28 @@ Ele deve possuir, ao menos, as 3 entidades importantes:
 
     Toda turma é composta das seguintes características: id, nome, data de início, data de término, lista de professores responsáveis, uma lista de alunos e módulo atual em que a turma está.
 
-    O módulo pode assumir os valores de 1 a 6 ou `undefined`, indicando que as aulas dessa turma ainda não começaram. Para esse exercício, vamos considerar que existam dois tipos de turma: integral ou noturna. Há uma restrição para o nome das turmas noturnas: tem que terminar com `-na-night`.
+    O módulo pode assumir os valores de 1 a 6 ou `undefined`, indicando que as aulas dessa turma ainda não começaram.
 
 As funcionalidades básicas são:
 
 → Criar estudante;
 
+→ Buscar estudante por nome ou todos;
+
+→ Adicionar/Editar turma atual do estudante;
+
 → Criar docente;
 
+→ Buscar docentes;
+
+→ Editar turma atual do docente;
+
 → Criar turma;
+
+→ Buscar turmas;
+
+→ Editar módulo da turma;
 
 → Adicionar estudante na turma;
 
 → Adicionar docente na turma;
-
-→ Pegar a idade de algum estudante a partir do id
