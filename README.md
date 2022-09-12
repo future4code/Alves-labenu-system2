@@ -2,8 +2,8 @@
 
 ### Integrantes
 
-Márleo Piber da Rosa
-Olavo Marques
+Márleo Piber da Rosa,
+Olavo Marques,
 Raquel Bürger
 
 ### Documentação Postaman
